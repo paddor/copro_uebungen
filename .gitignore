@@ -1,0 +1,15 @@
+# eclipse
+.metadata/
+.cproject
+.project
+.settings/
+cute/
+*test.xml
+Debug/
+Release/
+.classpath
+.recommenders/
+*.class
+
+# OSX
+.DS_Store

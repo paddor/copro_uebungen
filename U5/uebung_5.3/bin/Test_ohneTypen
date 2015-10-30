@@ -1,0 +1,7 @@
+PROGRAM;
+VAR A,B;
+BEGIN
+  B=10;
+  A=5*B;
+  WRITE(A);
+END.
