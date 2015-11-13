@@ -1,9 +1,12 @@
 PROGRAM;
-VAR int A,WIDE B;
+VAR int A,WORD B;
 VAR BYTE C, LONG D;
+VAR BYTE X, BYTE Y, BYTE Z;
 BEGIN
   B=10;
   C=5;
-  D=B*C;
-  WRITE(D);
+  X=2;
+  Y=4;
+  Z=X*Y;
+  WRITE(Z);
 END.

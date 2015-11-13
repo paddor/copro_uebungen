@@ -29,37 +29,51 @@ public class VariablenMitTypTest {
 	}
 
 	final String outCompiledWithCorrectTypes =
-		"[PROGRAM.input]\n" + 
-		"PROGRAM;\n" + 
-		"VAR LONG A,WIDE B;\n" + 
-		"VAR BYTE C, BYTE D;\n" + 
-		"BEGIN\n" + 
-		"  B=10;\n" + 
-		"  A=5*B;\n" + 
-		"  WRITE(A);\n" + 
-		"END.\n" + 
-		"\n" + 
-		"[PROGRAM.output]\n" + 
-		"\n" + 
-		"	WARMST	EQU $A01E\n" + 
-		"A:	DC.L 0\n" + 
-		"B:	DC.W 0\n" + 
-		"C:	DC.B 0\n" + 
-		"D:	DC.B 0\n" + 
-		"MAIN:\n" + 
-		"	MOVE #10, D0\n" + 
-		"	LEA B(PC), A0\n" + 
-		"	MOVE D0, (A0)\n" + 
-		"	MOVE #5, D0\n" + 
-		"	MOVE D0, -(SP) \n" + 
-		"	MOVE B(PC), D0\n" + 
-		"	MULS (SP)+, D0\n" + 
-		"	LEA A(PC), A0\n" + 
-		"	MOVE D0, (A0)\n" + 
-		"	MOVE A(PC), D0\n" + 
-		"	BSR WRITE\n" + 
-		"	DC WARMST\n" + 
-		"	END MAIN\n";
+			"[PROGRAM.input]\n" + 
+			"PROGRAM;\n" + 
+			"VAR WORD A,WORD B;\n" + 
+			"VAR BYTE C, LONG D;\n" + 
+			"BEGIN\n" + 
+			"  A=13;\n" + 
+			"  B=10;\n" + 
+			"  C=5;\n" + 
+			"  D=0;\n" + 
+			"  WRITE(A);\n" + 
+			"  WRITE(B);\n" + 
+			"  WRITE(C);\n" + 
+			"  WRITE(D);\n" + 
+			"END.\n" + 
+			"\n" + 
+			"[PROGRAM.output]\n" + 
+			"\n" + 
+			"	WARMST	EQU $A01E\n" + 
+			"A:	DC.W 0\n" + 
+			"B:	DC.W 0\n" + 
+			"C:	DC.B 0\n" + 
+			"D:	DC.L 0\n" + 
+			"MAIN:\n" + 
+			"	MOVE #13, D0\n" + 
+			"	LEA A(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #10, D0\n" + 
+			"	LEA B(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #5, D0\n" + 
+			"	LEA C(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #0, D0\n" + 
+			"	LEA D(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE A(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	MOVE B(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	MOVE C(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	MOVE D(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	DC WARMST\n" + 
+			"	END MAIN\n";
 
 	@Test
 	public void testWithCorrectTypes() throws IOException {
@@ -74,13 +88,16 @@ public class VariablenMitTypTest {
 	final String outCompiledWithIncorrectTypes =
 			"[PROGRAM.input]\n" + 
 			"PROGRAM;\n" + 
-			"VAR int A,WIDE B;\n" + 
+			"VAR int A,WORD B;\n" + 
 			"VAR BYTE C, LONG D;\n" + 
+			"VAR BYTE X, BYTE Y, BYTE Z;\n" + 
 			"BEGIN\n" + 
 			"  B=10;\n" + 
 			"  C=5;\n" + 
-			"  D=B*C;\n" + 
-			"  WRITE(D);\n" + 
+			"  X=2;\n" + 
+			"  Y=4;\n" + 
+			"  Z=X*Y;\n" + 
+			"  WRITE(Z);\n" + 
 			"END.\n" + 
 			"\n" + 
 			"[PROGRAM.output]\n" + 
@@ -89,6 +106,9 @@ public class VariablenMitTypTest {
 			"B:	DC.W 0\n" + 
 			"C:	DC.B 0\n" + 
 			"D:	DC.L 0\n" + 
+			"X:	DC.B 0\n" + 
+			"Y:	DC.B 0\n" + 
+			"Z:	DC.B 0\n" + 
 			"MAIN:\n" + 
 			"	MOVE #10, D0\n" + 
 			"	LEA B(PC), A0\n" + 
@@ -96,13 +116,19 @@ public class VariablenMitTypTest {
 			"	MOVE #5, D0\n" + 
 			"	LEA C(PC), A0\n" + 
 			"	MOVE D0, (A0)\n" + 
-			"	MOVE B(PC), D0\n" + 
-			"	MOVE D0, -(SP) \n" + 
-			"	MOVE C(PC), D0\n" + 
-			"	MULS (SP)+, D0\n" + 
-			"	LEA D(PC), A0\n" + 
+			"	MOVE #2, D0\n" + 
+			"	LEA X(PC), A0\n" + 
 			"	MOVE D0, (A0)\n" + 
-			"	MOVE D(PC), D0\n" + 
+			"	MOVE #4, D0\n" + 
+			"	LEA Y(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE X(PC), D0\n" + 
+			"	MOVE D0, -(SP) \n" + 
+			"	MOVE Y(PC), D0\n" + 
+			"	MULS (SP)+, D0\n" + 
+			"	LEA Z(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE Z(PC), D0\n" + 
 			"	BSR WRITE\n" + 
 			"	DC WARMST\n" + 
 			"	END MAIN\n";

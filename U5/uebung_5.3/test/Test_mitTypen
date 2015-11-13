@@ -1,8 +1,13 @@
 PROGRAM;
-VAR LONG A,WIDE B;
-VAR BYTE C, BYTE D;
+VAR WORD A,WORD B;
+VAR BYTE C, LONG D;
 BEGIN
+  A=13;
   B=10;
-  A=5*B;
+  C=5;
+  D=0;
   WRITE(A);
+  WRITE(B);
+  WRITE(C);
+  WRITE(D);
 END.
