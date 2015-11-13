@@ -1,9 +1,0 @@
-PROGRAM;
-VAR int A,WIDE B;
-VAR BYTE C, LONG D;
-BEGIN
-  B=10;
-  C=5;
-  D=B*C;
-  WRITE(D);
-END.
