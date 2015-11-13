@@ -65,7 +65,7 @@ public class VariablenMitTyp {
 	 * definition of keywords and token types
 	 */
 	private final String[] KWlist = { "IF", "ELSE", "ENDIF", "WHILE", "ENDWHILE", 
-									"READ", "WRITE", "VAR", "END", "BYTE", "WIDE", "LONG"};
+									"READ", "WRITE", "VAR", "END", "BYTE", "WORD", "LONG"};
 	/**
 	 * coding of keywords: i=IF,l=ELSE,w=WHILE,...
 	 * x = identifier (see below: getName)
