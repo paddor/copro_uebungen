@@ -119,4 +119,83 @@ public class VariablenMitTypTest {
 		assertEquals( outCompiledWithIncorrectTypes, outStream.toString());
 		assertEquals(errCompiledWithIncorrectTypes, errStream.toString());
 	}
+
+	final String outCompiledCorrectAssignmentType =
+			"[PROGRAM.input]\n" + 
+			"PROGRAM;\n" + 
+			"VAR BYTE A, BYTE B, BYTE C;\n" + 
+			"VAR LONG X, LONG Y, LONG Z;\n" + 
+			"BEGIN\n" + 
+			"  B=5;\n" + 
+			"  C=2;\n" + 
+			"  A=B+C;\n" + 
+			"  Y=3;\n" + 
+			"  Z=4;\n" + 
+			"  X=Y*Z;\n" + 
+			"  WRITE(A);\n" + 
+			"  WRITE(X);\n" + 
+			"END.\n" + 
+			"\n" + 
+			"[PROGRAM.output]\n" + 
+			"\n" + 
+			"	WARMST	EQU $A01E\n" + 
+			"A:	DC.B 0\n" + 
+			"B:	DC.B 0\n" + 
+			"C:	DC.B 0\n" + 
+			"X:	DC.L 0\n" + 
+			"Y:	DC.L 0\n" + 
+			"Z:	DC.L 0\n" + 
+			"MAIN:\n" + 
+			"	MOVE #5, D0\n" + 
+			"	LEA B(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #2, D0\n" + 
+			"	LEA C(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE B(PC), D0\n" + 
+			"	MOVE D0, -(SP) \n" + 
+			"	MOVE C(PC), D0\n" + 
+			"	ADD (SP)+, D0\n" + 
+			"	LEA A(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #3, D0\n" + 
+			"	LEA Y(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE #4, D0\n" + 
+			"	LEA Z(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE Y(PC), D0\n" + 
+			"	MOVE D0, -(SP) \n" + 
+			"	MOVE Z(PC), D0\n" + 
+			"	MULS (SP)+, D0\n" + 
+			"	LEA X(PC), A0\n" + 
+			"	MOVE D0, (A0)\n" + 
+			"	MOVE A(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	MOVE X(PC), D0\n" + 
+			"	BSR WRITE\n" + 
+			"	DC WARMST\n" + 
+			"	END MAIN\n";
+
+	final String errCompiledCorrectAssignmentType = "";
+	
+	@Test
+	public void testTypeSafeAssignment() throws IOException {
+		VariablenMitTyp vmt = new VariablenMitTyp("test/Test_assignmentMitKorrektenTypen");
+		vmt.compile();
+		assertEquals(outCompiledCorrectAssignmentType, outStream.toString());
+		assertEquals(errCompiledCorrectAssignmentType, errStream.toString());
+	}
+
+	final String outCompiledIncorrectAssignmentType = "";
+	final String errCompiledIncorrectAssignmentType = "";
+
+	@Test
+	public void testTypeUnsafeAssignment() throws IOException {
+		VariablenMitTyp vmt = new VariablenMitTyp("test/Test_assignmentMitInkorrektenTypen");
+		vmt.compile();
+		//assertEquals(outCompiledCorrectAssignmentType, outStream.toString());
+		//assertEquals(errCompiledCorrectAssignmentType, errStream.toString());
+		assertFalse("error expected", errStream.toString().isEmpty());
+	}
 }
