@@ -59,7 +59,7 @@ public class VariablenMitTyp {
 	private int nEntry; // nr of entries
 	private final int MAXENTRY = 100; // ..or less
 	String[] symTab;	// var names
-	char[] symType;		// type of symbol: 'v' for variable
+	char[] typeTab;		// type of symbol: 'v' for variable
 	
 	/**
 	 * definition of keywords and token types
@@ -79,10 +79,10 @@ public class VariablenMitTyp {
 	 */
 	private VariablenMitTyp() {
 		symTab = new String[MAXENTRY];
-		symType= new char[MAXENTRY];
+		typeTab= new char[MAXENTRY];
 		for (int i=0; i<MAXENTRY; i++) {
 			symTab[i] = "";
-			symType[i]=' ';
+			typeTab[i]=' ';
 		}
 		lCount = 0;
 		nEntry = 0;
@@ -307,7 +307,7 @@ public class VariablenMitTyp {
 		if ( nEntry == MAXENTRY ) abort("Symbol Table full!");
 		nEntry++;
 		symTab[nEntry]=sym;
-		symType[nEntry]=typ;
+		typeTab[nEntry]=typ;
 	}
 	
 	/**
