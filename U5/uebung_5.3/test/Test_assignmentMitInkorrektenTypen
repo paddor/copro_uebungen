@@ -1,0 +1,9 @@
+PROGRAM;
+VAR BYTE A, BYTE B, BYTE C;
+VAR LONG X, LONG Y, LONG Z;
+BEGIN
+  B=5;
+  Z=2;
+  A=B+Z;
+  WRITE(A);
+END.

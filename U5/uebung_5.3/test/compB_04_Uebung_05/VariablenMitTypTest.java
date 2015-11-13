@@ -187,15 +187,18 @@ public class VariablenMitTypTest {
 		assertEquals(errCompiledCorrectAssignmentType, errStream.toString());
 	}
 
-	final String outCompiledIncorrectAssignmentType = "";
-	final String errCompiledIncorrectAssignmentType = "";
+	final String errCompiledIncorrectAssignmentType = "\n" + 
+			"*** ERROR: variable type doesn't match expected type of assignment.	look=';'\n";
+
 
 	@Test
 	public void testTypeUnsafeAssignment() throws IOException {
 		VariablenMitTyp vmt = new VariablenMitTyp("test/Test_assignmentMitInkorrektenTypen");
-		vmt.compile();
-		//assertEquals(outCompiledCorrectAssignmentType, outStream.toString());
-		//assertEquals(errCompiledCorrectAssignmentType, errStream.toString());
-		assertFalse("error expected", errStream.toString().isEmpty());
+		try {
+			vmt.compile();
+			fail("exception was expected, but not thrown");
+		} catch (RuntimeException e) {
+			assertEquals(errCompiledIncorrectAssignmentType, errStream.toString());
+		}
 	}
 }

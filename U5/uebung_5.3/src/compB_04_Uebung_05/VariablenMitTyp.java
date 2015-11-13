@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Arrays;
 import java.io.BufferedReader;
 
 /**
@@ -60,6 +61,7 @@ public class VariablenMitTyp {
 	private final int MAXENTRY = 100; // ..or less
 	String[] symTab;	// var names
 	char[] typeTab;		// type of symbol: 'v' for variable
+	private char assignmentType = '\0';
 	
 	/**
 	 * definition of keywords and token types
@@ -464,6 +466,11 @@ public class VariablenMitTyp {
 		if ( ! inTable(name) ) {
 			undefined(name);
 		}
+		// check type
+		if (assignmentType != '\0' && assignmentType != typeOf(name)) {
+			abort("variable type doesn't match expected type of assignment");
+		}
+
 		emitLn("MOVE "+name + "(PC), D0");
 	}
 	
@@ -925,10 +932,17 @@ public class VariablenMitTyp {
 		// 
 		checkTable(lookValue);
 		name = lookValue;
+		assignmentType = typeOf(name); // remember type
 		next();
 		matchString("=");
 		boolExpression();
+		assignmentType = '\0';
 		store(name);
+	}
+	
+	private char typeOf(String name) {
+		int index = Arrays.asList(symTab).indexOf(name);
+		return typeTab[index];
 	}
 	
 	/**
